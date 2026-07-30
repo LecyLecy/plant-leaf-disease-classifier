@@ -7,6 +7,15 @@ import numpy as np
 from .features import extract_features_for_variant, features_to_frame
 
 
+class PortableModelUnpickler(pickle.Unpickler):
+    """Load model bundles containing paths created on another operating system."""
+
+    def find_class(self, module, name):
+        if module == "pathlib" and name in {"WindowsPath", "PosixPath"}:
+            return Path
+        return super().find_class(module, name)
+
+
 @dataclass
 class ModelBundle:
     path: Path
@@ -50,7 +59,7 @@ def save_model_bundle(
 def load_model_bundle(path):
     path = Path(path)
     with path.open("rb") as file:
-        bundle = pickle.load(file)
+        bundle = PortableModelUnpickler(file).load()
 
     if isinstance(bundle, dict):
         bundle = ModelBundle(

@@ -37,6 +37,25 @@ class BorderlinePepperModel:
 
 
 class ModelBundleTests(unittest.TestCase):
+    def test_saved_bundle_loads_through_portable_path_unpickler(self):
+        from plant_classifier.model_store import load_model_bundle, save_model_bundle
+
+        with tempfile.TemporaryDirectory() as tmp:
+            bundle_path = Path(tmp) / "portable.pickle"
+            save_model_bundle(
+                bundle_path,
+                variant="fast",
+                model_name="Portable",
+                model=DummyModel(),
+                label_encoder=DummyEncoder(),
+                feature_columns=["a"],
+            )
+
+            loaded = load_model_bundle(bundle_path)
+
+        self.assertEqual(loaded.model_name, "Portable")
+        self.assertEqual(loaded.path, bundle_path)
+
     def test_predict_from_features_reorders_columns_and_reports_confidence(self):
         from plant_classifier.model_store import ModelBundle, predict_from_features
 
