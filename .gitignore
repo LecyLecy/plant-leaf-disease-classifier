@@ -4,6 +4,7 @@ __pycache__/
 .pytest_cache/
 .coverage
 .pip-*.log
+.git-*.log
 .server.*.log
 .DS_Store
 Thumbs.db
