@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#123d2b">
+    <meta name="description" content="Identify common leaf diseases from a photo using computer vision.">
+    <title>LeafLens — Plant Disease Classifier</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="LeafLens home">
+        <span class="brand-mark" aria-hidden="true"><span></span></span>
+        <span>LeafLens</span>
+      </a>
+      <div class="system-status" aria-label="System status">
+        <span class="status-dot" aria-hidden="true"></span>
+        Analysis system ready
+      </div>
+    </header>
+
+    <main>
+      <section class="intro" aria-labelledby="pageTitle">
+        <div>
+          <p class="eyebrow">Computer vision for plant care</p>
+          <h1 id="pageTitle">Understand what your leaf is telling you.</h1>
+        </div>
+        <p class="intro-copy">
+          Upload a clear leaf photo for an instant screening across peach,
+          bell pepper, and strawberry plants.
+        </p>
+      </section>
+
+      <div class="workflow" aria-label="Diagnosis workflow">
+        <div class="workflow-step is-active">
+          <span>01</span>
+          <strong>Add a leaf photo</strong>
+        </div>
+        <div class="workflow-step">
+          <span>02</span>
+          <strong>AI image analysis</strong>
+        </div>
+        <div class="workflow-step">
+          <span>03</span>
+          <strong>Review the result</strong>
+        </div>
+      </div>
+
+      <section class="diagnostic-layout" aria-label="Plant disease diagnostic tool">
+        <article class="scan-card">
+          <div class="card-heading">
+            <div>
+              <p class="section-label">Leaf image</p>
+              <h2>Upload or take a photo</h2>
+            </div>
+            <div class="engine-field">
+              <label for="modelSelect">Analysis model</label>
+              <div class="select-wrap">
+                <select id="modelSelect" aria-label="Choose an analysis model"></select>
+              </div>
+            </div>
+          </div>
+
+          <div class="media-shell">
+            <div
+              id="dropZone"
+              class="drop-zone"
+              tabindex="0"
+              role="button"
+              aria-label="Upload a leaf image"
+            >
+              <img id="imagePreview" class="image-preview" alt="Selected leaf preview" hidden>
+              <div id="uploadPrompt" class="upload-prompt">
+                <span class="upload-symbol" aria-hidden="true">↑</span>
+                <div>
+                  <strong>Drop your leaf photo here</strong>
+                  <span>or click to browse your files</span>
+                </div>
+                <small>JPG, PNG, or WEBP · Clear, well-lit photos work best</small>
+              </div>
+              <div id="analysisOverlay" class="analysis-overlay" hidden>
+                <span class="spinner" aria-hidden="true"></span>
+                <strong>Examining leaf patterns</strong>
+                <span>Analyzing color, texture, and visible spots…</span>
+              </div>
+            </div>
+
+            <div id="cameraStage" class="camera-stage" hidden>
+              <video id="camera" autoplay playsinline muted></video>
+              <canvas id="snapshot" hidden></canvas>
+              <div class="reticle" aria-hidden="true">
+                <span class="corner corner-tl"></span>
+                <span class="corner corner-tr"></span>
+                <span class="corner corner-bl"></span>
+                <span class="corner corner-br"></span>
+              </div>
+              <div id="emptyState" class="camera-message">Starting camera…</div>
+              <p class="camera-tip">Position one leaf inside the frame</p>
+            </div>
+          </div>
+
+          <div class="scan-actions">
+            <label class="button button-primary upload">
+              <span id="uploadButtonText">Choose photo</span>
+              <input id="uploadInput" type="file" accept="image/*">
+            </label>
+            <button id="startBtn" class="button button-secondary" type="button">Use camera</button>
+            <button id="captureBtn" class="button button-primary" type="button" disabled hidden>Capture photo</button>
+            <button id="clearBtn" class="button button-quiet" type="button" hidden>Remove photo</button>
+          </div>
+
+          <div class="photo-guidance" aria-label="Photo guidance">
+            <span class="guidance-mark" aria-hidden="true">i</span>
+            <p><strong>For a reliable screening:</strong> use one leaf, fill most of the frame, and avoid harsh shadows.</p>
+            <span class="privacy-note">Processed locally on this device</span>
+          </div>
+        </article>
+
+        <aside class="result-card" aria-live="polite">
+          <div class="result-heading">
+            <div>
+              <p class="section-label">Screening result</p>
+              <h2>Leaf assessment</h2>
+            </div>
+            <span id="resultStatus" class="result-status is-waiting">Awaiting image</span>
+          </div>
+
+          <div id="emptyResult" class="empty-result">
+            <div class="empty-visual" aria-hidden="true">
+              <span class="leaf-outline"></span>
+              <span class="scan-line"></span>
+            </div>
+            <h3>Ready when you are</h3>
+            <p>Add a leaf photo to see the predicted condition, confidence score, and closest matches.</p>
+          </div>
+
+          <div id="resultContent" class="result-content" hidden>
+            <div class="diagnosis">
+              <span id="resultPlant" class="plant-name">Plant</span>
+              <h3 id="resultLabel">Condition</h3>
+              <p id="resultSummary">Your screening summary will appear here.</p>
+            </div>
+
+            <div class="confidence">
+              <div class="confidence-heading">
+                <span>Model confidence</span>
+                <strong id="confidenceText">—</strong>
+              </div>
+              <div
+                class="confidence-bar"
+                role="progressbar"
+                aria-label="Prediction confidence"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                aria-valuenow="0"
+              >
+                <span id="confidenceBar"></span>
+              </div>
+            </div>
+
+            <div class="matches">
+              <p class="mini-heading">Top matches</p>
+              <div id="topPredictions" class="top-predictions"></div>
+            </div>
+
+            <div class="recommendation">
+              <span class="recommendation-mark" aria-hidden="true">→</span>
+              <div>
+                <strong id="recommendationTitle">Recommended next step</strong>
+                <p id="recommendationText"></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="model-note">
+            <span class="model-dot" aria-hidden="true"></span>
+            <div>
+              <strong id="modelName">Loading analysis model…</strong>
+              <span id="modelVariant"></span>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="capabilities" aria-label="Classifier capabilities">
+        <p>Currently trained to screen</p>
+        <div class="crop-list">
+          <span>Peach</span>
+          <span>Bell pepper</span>
+          <span>Strawberry</span>
+        </div>
+        <p class="disclaimer">Screening support only — not a substitute for professional plant pathology advice.</p>
+      </section>
+    </main>
+
+    <footer>
+      <span>LeafLens</span>
+      <span>Computer vision · handcrafted features · ensemble learning</span>
+    </footer>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
+</html>
