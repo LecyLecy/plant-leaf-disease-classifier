@@ -2,6 +2,8 @@
 
 LeafLens is a local computer-vision web application that screens leaf photos for common conditions in peach, bell pepper, and strawberry plants. It combines handcrafted image features with ensemble machine-learning models and presents the result in a clear, responsive diagnostic interface.
 
+[Launch the live Streamlit app](https://appapppy-ggcd4xhaxeb42jzvaw6rcp.streamlit.app/)
+
 ## Highlights
 
 - Drag-and-drop, file picker, clipboard paste, and live camera input
