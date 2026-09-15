@@ -191,4 +191,5 @@ The screenshots and disease example in `docs/images/` document the LeafLens inte
 
 ## License
 
+
 No license file is currently included in the repository.
