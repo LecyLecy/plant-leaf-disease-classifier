@@ -20,6 +20,8 @@ LeafLens is an end-to-end computer vision application for screening visible plan
 
 The project focuses on a practical interaction: add one clear leaf image, select an analysis model, and review the result. Flask provides the local web experience, while a Streamlit interface provides a deployed demo. Both front ends use the same feature-extraction and model-inference package.
 
+> **Photo tip:** use one clear, well-lit leaf that fills most of the frame for the most reliable screening.
+
 ## Application flow
 
 | Upload state | Input example | Assessment result |
