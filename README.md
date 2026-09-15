@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="static/leaflens-icon.svg" width="76" alt="LeafLens icon">
+
 # LeafLens
 
 ### Plant disease screening from leaf images using classical computer vision and ensemble machine learning
