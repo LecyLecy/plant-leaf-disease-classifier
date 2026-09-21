@@ -98,6 +98,8 @@ For camera models, the inference layer applies a small safety-oriented adjustmen
 
 The saved bundles report the following validation metrics. These results describe the repository's held-out validation data, not a guarantee of performance on every field photo, lighting condition, crop variety, or disease outside the six supported classes.
 
+![LeafLens model validation performance](docs/images/model-validation-performance.svg)
+
 | Model | Variant | Features | Accuracy | Weighted F1 |
 | --- | --- | ---: | ---: | ---: |
 | Camera Robust Random Forest | Camera | 38 | 91.67% | 91.63% |

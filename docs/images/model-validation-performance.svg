@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 480" role="img" aria-labelledby="title desc">
+  <title id="title">LeafLens model validation performance</title>
+  <desc id="desc">Full XGBoost has highest validation accuracy and weighted F1 at 98.55 percent. Full Random Forest scores 97.32 percent. Camera Robust and Fast Random Forest score about 91.6 percent.</desc>
+  <style>
+    .title { fill: #123d2b; font: 500 26px Arial, sans-serif; }
+    .heading { fill: #123d2b; font: 500 17px Arial, sans-serif; }
+    .label { fill: #254635; font: 14px Arial, sans-serif; }
+    .value { fill: #123d2b; font: 500 14px Arial, sans-serif; }
+    .note { fill: #60756a; font: 13px Arial, sans-serif; }
+    .grid { stroke: #d8e4dc; stroke-width: 1; }
+    .track { fill: #edf3ef; }
+    .accuracy { fill: #1d6847; }
+    .f1 { fill: #7baa5d; }
+  </style>
+
+  <text class="title" x="48" y="44">Held-out validation performance</text>
+  <text class="note" x="48" y="69">Higher is better. Scores come from metrics stored with each trained model bundle.</text>
+
+  <g transform="translate(48 0)">
+    <text class="heading" x="0" y="112">Accuracy (%)</text>
+    <line class="grid" x1="202" y1="128" x2="502" y2="128"/>
+    <text class="note" x="202" y="148" text-anchor="middle">0</text>
+    <text class="note" x="277" y="148" text-anchor="middle">25</text>
+    <text class="note" x="352" y="148" text-anchor="middle">50</text>
+    <text class="note" x="427" y="148" text-anchor="middle">75</text>
+    <text class="note" x="502" y="148" text-anchor="middle">100</text>
+
+    <text class="label" x="190" y="180" text-anchor="end">Camera robust RF</text>
+    <rect class="track" x="202" y="163" width="300" height="22" rx="3"/>
+    <rect class="accuracy" x="202" y="163" width="275" height="22" rx="3"/>
+    <text class="value" x="514" y="180">91.67%</text>
+
+    <text class="label" x="190" y="230" text-anchor="end">Fast RF</text>
+    <rect class="track" x="202" y="213" width="300" height="22" rx="3"/>
+    <rect class="accuracy" x="202" y="213" width="275" height="22" rx="3"/>
+    <text class="value" x="514" y="230">91.67%</text>
+
+    <text class="label" x="190" y="280" text-anchor="end">Full RF</text>
+    <rect class="track" x="202" y="263" width="300" height="22" rx="3"/>
+    <rect class="accuracy" x="202" y="263" width="292" height="22" rx="3"/>
+    <text class="value" x="514" y="280">97.32%</text>
+
+    <text class="label" x="190" y="330" text-anchor="end">Full XGBoost</text>
+    <rect class="track" x="202" y="313" width="300" height="22" rx="3"/>
+    <rect class="accuracy" x="202" y="313" width="296" height="22" rx="3"/>
+    <text class="value" x="514" y="330">98.55%</text>
+  </g>
+
+  <g transform="translate(650 0)">
+    <text class="heading" x="0" y="112">Weighted F1 (%)</text>
+    <line class="grid" x1="202" y1="128" x2="502" y2="128"/>
+    <text class="note" x="202" y="148" text-anchor="middle">0</text>
+    <text class="note" x="277" y="148" text-anchor="middle">25</text>
+    <text class="note" x="352" y="148" text-anchor="middle">50</text>
+    <text class="note" x="427" y="148" text-anchor="middle">75</text>
+    <text class="note" x="502" y="148" text-anchor="middle">100</text>
+
+    <text class="label" x="190" y="180" text-anchor="end">Camera robust RF</text>
+    <rect class="track" x="202" y="163" width="300" height="22" rx="3"/>
+    <rect class="f1" x="202" y="163" width="275" height="22" rx="3"/>
+    <text class="value" x="514" y="180">91.63%</text>
+
+    <text class="label" x="190" y="230" text-anchor="end">Fast RF</text>
+    <rect class="track" x="202" y="213" width="300" height="22" rx="3"/>
+    <rect class="f1" x="202" y="213" width="275" height="22" rx="3"/>
+    <text class="value" x="514" y="230">91.59%</text>
+
+    <text class="label" x="190" y="280" text-anchor="end">Full RF</text>
+    <rect class="track" x="202" y="263" width="300" height="22" rx="3"/>
+    <rect class="f1" x="202" y="263" width="292" height="22" rx="3"/>
+    <text class="value" x="514" y="280">97.32%</text>
+
+    <text class="label" x="190" y="330" text-anchor="end">Full XGBoost</text>
+    <rect class="track" x="202" y="313" width="300" height="22" rx="3"/>
+    <rect class="f1" x="202" y="313" width="296" height="22" rx="3"/>
+    <text class="value" x="514" y="330">98.55%</text>
+  </g>
+
+  <line class="grid" x1="48" y1="382" x2="1152" y2="382"/>
+  <text class="note" x="48" y="415">Best result: Full XGBoost, 98.55% accuracy and 98.55% weighted F1.</text>
+  <text class="note" x="48" y="438">Default app model: Camera Robust Random Forest, selected for camera-oriented input.</text>
+</svg>
